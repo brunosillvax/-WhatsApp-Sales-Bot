@@ -54,6 +54,57 @@ O **WhatsApp Sales Bot** é um bot de vendas completo e profissional que automat
 5. **Finaliza pedido** → Bot valida estoque e notifica vendedor
 6. **Vendedor confirma** → Processa pagamento e entrega
 
+### 🧪 Testes Automatizados e Scripts
+
+### ✅ Testes Automatizados do Bot
+
+Este projeto agora inclui **um sistema de testes automáticos que valida todas as principais funções do bot** antes de você ir para produção:
+
+- Dialogo completo: menu, categorias, produtos, carrinho, ofertas, suporte, admin
+- Respostas, botões, imagens e fluxo de conversação
+- Gerenciamento de estado e deduplicação de mensagens
+#### 📊 Como executar os testes automáticos (recomendado SEM WhatsApp!)
+
+```bash
+npm test
+```
+
+Ou diretamente:
+
+```bash
+node testes/teste-automatico.js
+```
+
+- O script **NÃO usa Baileys nem seu WhatsApp** (execução totalmente offline/simulada)
+- Exibe um relatório (verde: passou, vermelho: falhou)
+- Valida todo o fluxo principal igual o uso real do bot
+
+Para detalhes completos dos cenários e checklist de testes manuais:
+
+- [🧪 Guia de Testes Detalhado](TESTES_BOT.md)
+- [📋 Checklist/Resumo Funcional](VERIFICACAO_FUNCIONALIDADES.md)
+
+#### ⚡ Scripts PowerShell para iniciar/parar o bot (Windows)
+
+- **iniciar_bot.ps1:** encerra quaisquer Node.js anteriores e sobe o bot
+- **parar_bot.ps1:** encerra todos processos Node.js do bot
+
+Exemplo de uso (PowerShell):
+
+```powershell
+./parar_bot.ps1           # Para o bot e limpa processos antigos
+./iniciar_bot.ps1         # Sobe o bot na pasta correta
+```
+
+_Se preferir via npm:_
+
+```bash
+npm start           # Sobe o bot normalmente
+npm run dev         # Sobe em modo desenvolvimento (auto-reload)
+```
+
+---
+
 ### 🏆 Principais Destaques
 
 <div align="center">
@@ -97,51 +148,7 @@ O **WhatsApp Sales Bot** é um bot de vendas completo e profissional que automat
 
 </div>
 
-## 📸 Preview / Demonstração
 
-### 🎬 Interface do Bot
-
-<!-- Adicione screenshots do bot em funcionamento aqui -->
-<div align="center">
-
-**Conversa do Cliente**
-
-![Conversa Cliente](docs/images/conversa-cliente.png)
-_Screenshot da conversa do cliente interagindo com o bot_
-
-**Painel Admin**
-
-![Painel Admin](docs/images/painel-admin.png)
-_Screenshot do painel administrativo gerenciando produtos_
-
-**Dashboard de Estatísticas**
-
-![Dashboard](docs/images/dashboard.png)
-_Screenshot do dashboard com estatísticas de vendas_
-
-</div>
-
-### 📊 Arquitetura do Sistema
-
-<!-- Adicione diagrama de arquitetura/fluxo aqui -->
-<div align="center">
-
-![Arquitetura do Sistema](docs/images/arquitetura.png)
-_Diagrama mostrando a arquitetura completa do bot_
-
-</div>
-
-### 🔄 Fluxo Automatizado (n8n)
-
-<!-- Adicione gráfico do fluxo n8n aqui -->
-<div align="center">
-
-![Fluxo n8n](docs/images/fluxo-n8n.png)
-_Gráfico profissional do fluxo automatizado no n8n_
-
-</div>
-
----
 
 ## ✨ Funcionalidades Completas
 
@@ -600,7 +607,7 @@ Cliente
 
 ### 💬 Conversa com Cliente
 
-```text
+``text
 Cliente: Olá
 Bot: 👋 Olá! Bem-vindo à Loja Tech!
      É a primeira vez que você nos visita?
@@ -649,7 +656,7 @@ Bot: 🛒 *Seu Carrinho:*
 
 ### 🎟️ Aplicando Cupom
 
-```text
+``text
 Cliente: cupom DESCONTO10
 Bot: ✅ Cupom DESCONTO10 aplicado com sucesso!
      💰 Subtotal: R$ 8999.90
@@ -660,7 +667,7 @@ Bot: ✅ Cupom DESCONTO10 aplicado com sucesso!
 
 ### 🔐 Modo Admin
 
-```text
+``text
 Admin: admin
 Bot: 🔐 *Painel Administrativo*
      ...
@@ -792,7 +799,7 @@ O bot utiliza **Baileys** para autenticação segura via QR Code:
 
 **Solução:**
 
-```bash
+```
 npm install qrcode-terminal
 ```
 

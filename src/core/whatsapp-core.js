@@ -9,6 +9,44 @@ export default class WhatsAppCore {
     this.conversationFlow = conversationFlow;
     this.adminHandler = null;
     this.useBatching = process.env.USE_MESSAGE_BATCHING !== 'false'; // Ativado por padrão
+
+    // Cache para evitar processar mensagens duplicadas
+    // Armazena IDs de mensagens já processadas: { messageId: timestamp }
+    this.processedMessages = new Map();
+    this.MESSAGE_CACHE_TTL = 60000; // 60 segundos - remover mensagens processadas após 1 minuto
+  }
+
+  /**
+   * Verificar se mensagem já foi processada
+   */
+  isMessageProcessed(msgKey) {
+    if (!msgKey || !msgKey.id) return false;
+
+    const messageId = `${msgKey.remoteJid}_${msgKey.id}_${msgKey.fromMe ? 'me' : 'them'}`;
+
+    if (this.processedMessages.has(messageId)) {
+      return true; // Mensagem já processada
+    }
+
+    // Marcar como processada
+    this.processedMessages.set(messageId, Date.now());
+
+    // Limpar cache antigo periodicamente
+    this.cleanProcessedMessages();
+
+    return false; // Nova mensagem
+  }
+
+  /**
+   * Limpar mensagens processadas antigas do cache
+   */
+  cleanProcessedMessages() {
+    const now = Date.now();
+    for (const [messageId, timestamp] of this.processedMessages.entries()) {
+      if (now - timestamp > this.MESSAGE_CACHE_TTL) {
+        this.processedMessages.delete(messageId);
+      }
+    }
   }
 
   setAdminHandler(adminHandler) {
@@ -22,6 +60,15 @@ export default class WhatsAppCore {
       try {
         // Ignorar mensagens próprias e status
         if (msg.key.fromMe || !msg.message) continue;
+
+        // Verificar se mensagem já foi processada (evitar duplicatas)
+        if (this.isMessageProcessed(msg.key)) {
+          loggingService.info('Mensagem duplicada ignorada', {
+            jid: msg.key.remoteJid?.split('@')[0],
+            messageId: msg.key.id,
+          });
+          continue; // Pular mensagem duplicada
+        }
 
         const jid = msg.key.remoteJid;
         const messageType = Object.keys(msg.message)[0];
@@ -158,23 +205,55 @@ export default class WhatsAppCore {
   async sendMessageWithButtons(jid, text, buttons, options = {}) {
     // Botões sempre enviados imediatamente (não usar batching)
     return errorHandler.withRetry(async () => {
-      const buttonRows = buttons.map((btn, index) => ({
-        title: btn.text,
-        id: btn.id || `btn_${index}`,
-      }));
+      // Primeiro, sempre enviar a mensagem de texto completa com as opções
+      // Isso garante que mesmo se os botões não funcionarem, o usuário vê as opções
+      let fullText = text || '';
+      fullText += '\n\n';
+      buttons.forEach((btn, index) => {
+        const btnText = btn.text.replace(/[0-9]️⃣/g, '').trim();
+        fullText += `*${index + 1}.* ${btnText}\n`;
+      });
+      fullText += '\n_Digite o número ou clique nos botões acima._';
 
-      const message = {
-        text: text || '',
-        buttons: buttonRows,
-        headerType: 1,
-      };
+      // Enviar mensagem completa primeiro
+      await this.sock.sendMessage(jid, { text: fullText }, options);
 
-      await this.sock.sendMessage(jid, message, options);
-      loggingService.logMessage(jid, `[BOTÕES] ${text || ''}`, 'sent');
+      // Depois, tentar enviar botões interativos
+      try {
+        const buttonRows = buttons.map((btn, index) => ({
+          index: index,
+          quickReplyButton: {
+            displayText: btn.text,
+            id: btn.id || `btn_${index}`,
+          },
+        }));
+
+        const buttonsMessage = {
+          text: 'Escolha uma opção:',
+          templateButtons: buttonRows,
+        };
+
+        await this.sock.sendMessage(jid, buttonsMessage, options);
+        loggingService.logMessage(jid, `[BOTÕES] Enviados ${buttons.length} botões`, 'sent');
+      } catch (buttonError) {
+        // Se botões falharem, a mensagem de texto já foi enviada com as opções
+        loggingService.warn('Botões não puderam ser enviados, mas menu em texto foi enviado', {
+          jid: jid.split('@')[0],
+        });
+      }
     }, `enviar botões para ${jid.split('@')[0]}`).catch(async (error) => {
-      loggingService.logError('Erro ao enviar botões', error, { jid: jid.split('@')[0] });
-      // Se falhar, enviar apenas o texto
-      await this.sendMessage(jid, text || '', { ...options, urgent: true });
+      loggingService.logError('Erro ao enviar mensagem com botões', error, { jid: jid.split('@')[0] });
+
+      // Fallback final: enviar apenas texto numerado
+      let fallbackText = text || '';
+      fallbackText += '\n\n*Escolha uma opção:*\n\n';
+      buttons.forEach((btn, index) => {
+        const btnText = btn.text.replace(/[0-9]️⃣/g, '').trim();
+        fallbackText += `*${index + 1}.* ${btnText}\n`;
+      });
+      fallbackText += '\n_Digite o número ou o nome da opção._';
+
+      await this.sendMessage(jid, fallbackText, { ...options, urgent: true });
     });
   }
 

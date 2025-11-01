@@ -89,7 +89,10 @@ export default class ConversationFlow {
 
   async showMainMenu(jid) {
     // Mensagem de boas-vindas personalizada
-    const message = welcomeMessages.generateWelcomeMessage(jid, this.productCatalog);
+    let message = welcomeMessages.generateWelcomeMessage(jid, this.productCatalog);
+
+    // Adicionar instruções para escolher opção
+    message += '\n\n*Escolha uma opção abaixo:*';
 
     const buttons = [
       { id: 'ver_produtos', text: '1️⃣ Ver Produtos' },
@@ -99,26 +102,77 @@ export default class ConversationFlow {
       { id: 'equipe', text: '5️⃣ Falar com a Equipe' },
     ];
 
+    // Enviar mensagem e botões juntos
     await this.whatsappCore.sendMessageWithButtons(jid, message, buttons);
     this.stateManager.setState(jid, 'MAIN_MENU');
   }
 
   async handleMainMenu(jid, text) {
-    if (text.includes('1') || text.includes('ver') || text.includes('produtos') || text === 'ver_produtos') {
+    const normalizedText = text.toLowerCase();
+
+    // Reconhecer intenção de ver/comprar produtos
+    if (
+      normalizedText.includes('1') ||
+      normalizedText.includes('ver') ||
+      normalizedText.includes('produtos') ||
+      normalizedText.includes('comprar') ||
+      normalizedText.includes('celular') ||
+      normalizedText.includes('smartphone') ||
+      normalizedText.includes('iphone') ||
+      normalizedText.includes('android') ||
+      normalizedText === 'ver_produtos'
+    ) {
       await this.showCategories(jid);
-    } else if (text.includes('2') || text.includes('ofertas') || text === 'ofertas') {
+    } else if (
+      normalizedText.includes('2') ||
+      normalizedText.includes('ofertas') ||
+      normalizedText.includes('promoção') ||
+      normalizedText.includes('promocao') ||
+      normalizedText === 'ofertas'
+    ) {
       await this.showOffers(jid);
-    } else if (text.includes('3') || text.includes('suporte') || text.includes('manutenção') || text === 'suporte') {
+    } else if (
+      normalizedText.includes('3') ||
+      normalizedText.includes('suporte') ||
+      normalizedText.includes('manutenção') ||
+      normalizedText.includes('manutencao') ||
+      normalizedText.includes('ajuda') ||
+      normalizedText === 'suporte'
+    ) {
       await this.showSupport(jid);
-    } else if (text.includes('4') || text.includes('loja') || text.includes('física') || text === 'loja') {
+    } else if (
+      normalizedText.includes('4') ||
+      normalizedText.includes('loja') ||
+      normalizedText.includes('física') ||
+      normalizedText.includes('fisica') ||
+      normalizedText.includes('endereço') ||
+      normalizedText.includes('endereco') ||
+      normalizedText === 'loja'
+    ) {
       await this.showStoreInfo(jid);
-    } else if (text.includes('5') || text.includes('equipe') || text.includes('falar') || text === 'equipe') {
+    } else if (
+      normalizedText.includes('5') ||
+      normalizedText.includes('equipe') ||
+      normalizedText.includes('falar') ||
+      normalizedText.includes('atendente') ||
+      normalizedText.includes('vendedor') ||
+      normalizedText === 'equipe'
+    ) {
       await this.transferToHuman(jid);
-    } else if (text.includes('v') || text.includes('voltar')) {
+    } else if (normalizedText.includes('v') || normalizedText.includes('voltar')) {
       // Voltar ao menu principal
       await this.showMainMenu(jid);
     } else {
-      // Entrada inválida, mostrar menu novamente
+      // Entrada inválida, mostrar menu novamente com ajuda
+      await this.whatsappCore.sendMessage(
+        jid,
+        '🤔 Não entendi. Use os botões acima ou digite:\n\n' +
+        '• "1" ou "produtos" para ver produtos\n' +
+        '• "2" ou "ofertas" para ver promoções\n' +
+        '• "3" ou "suporte" para ajuda\n' +
+        '• "4" ou "loja" para informações\n' +
+        '• "5" ou "equipe" para falar com alguém'
+      );
       await this.showMainMenu(jid);
     }
   }
@@ -137,13 +191,34 @@ export default class ConversationFlow {
   }
 
   async handleCategories(jid, text) {
-    if (text.includes('smartphone') || text.includes('celular') || text === 'categoria_smartphones') {
+    const normalizedText = text.toLowerCase().trim();
+
+    // Reconhecer números dos botões ou nomes
+    if (
+      normalizedText === '1' ||
+      normalizedText.includes('smartphone') ||
+      normalizedText.includes('celular') ||
+      normalizedText === 'categoria_smartphones'
+    ) {
       await this.showSubCategories(jid, 'smartphones');
-    } else if (text.includes('acessorios') || text.includes('acessório') || text === 'categoria_acessorios') {
+    } else if (
+      normalizedText === '2' ||
+      normalizedText.includes('acessorios') ||
+      normalizedText.includes('acessório') ||
+      normalizedText === 'categoria_acessorios'
+    ) {
       await this.showSubCategories(jid, 'acessorios');
-    } else if (text.includes('v') || text.includes('voltar') || text === 'voltar_menu') {
+    } else if (normalizedText.includes('v') || normalizedText.includes('voltar') || normalizedText === 'voltar_menu') {
       await this.showMainMenu(jid);
     } else {
+      // Se não reconheceu, mostrar menu de categorias novamente com ajuda
+      await this.whatsappCore.sendMessage(
+        jid,
+        '🤔 Não entendi. Escolha uma opção:\n\n' +
+        '*1.* Smartphones\n' +
+        '*2.* Acessórios\n\n' +
+        'Ou digite *V* para voltar.'
+      );
       await this.showCategories(jid);
     }
   }
@@ -188,27 +263,51 @@ export default class ConversationFlow {
 
   async handleSubCategories(jid, text, data) {
     const categoriaPrincipal = data.categoriaPrincipal || 'smartphones';
+    const normalizedText = text.toLowerCase().trim();
     let subCategoria = null;
 
-    if (text.includes('android') || text === 'sub_android') {
+    // Obter sub-categorias disponíveis
+    const categories = this.productCatalog.getCategories();
+    const subCategorias = categories[categoriaPrincipal] || [];
+
+    // Reconhecer por número (1 = primeira sub-categoria, 2 = segunda, etc.)
+    if (normalizedText === '1' && subCategorias.length > 0) {
+      subCategoria = subCategorias[0]; // Primeira sub-categoria
+    } else if (normalizedText === '2' && subCategorias.length > 1) {
+      subCategoria = subCategorias[1]; // Segunda sub-categoria
+    } else if (normalizedText === '3' && subCategorias.length > 2) {
+      subCategoria = subCategorias[2]; // Terceira sub-categoria
+    }
+    // Reconhecer por nome
+    else if (normalizedText.includes('android') || normalizedText === 'sub_android') {
       subCategoria = 'android';
-    } else if (text.includes('iphone') || text === 'sub_iphone') {
+    } else if (normalizedText.includes('iphone') || normalizedText === 'sub_iphone') {
       subCategoria = 'iphone';
-    } else if (text.includes('cabos') || text === 'sub_cabos') {
+    } else if (normalizedText.includes('cabos') || normalizedText === 'sub_cabos') {
       subCategoria = 'cabos';
-    } else if (text.includes('carregador') || text === 'sub_carregadores') {
+    } else if (normalizedText.includes('carregador') || normalizedText === 'sub_carregadores') {
       subCategoria = 'carregadores';
-    } else if (text.includes('fones') || text === 'sub_fones') {
+    } else if (normalizedText.includes('fones') || normalizedText === 'sub_fones') {
       subCategoria = 'fones';
-    } else if (text.includes('v') || text.includes('voltar') || text === 'voltar_categorias') {
+    } else if (normalizedText.includes('v') || normalizedText.includes('voltar') || normalizedText === 'voltar_categorias') {
       await this.showCategories(jid);
       return;
     } else {
+      // Se não reconheceu, mostrar menu novamente com ajuda
+      await this.whatsappCore.sendMessage(
+        jid,
+        '🤔 Não entendi. Escolha uma opção das opções acima ou digite *V* para voltar.'
+      );
       await this.showSubCategories(jid, categoriaPrincipal);
       return;
     }
 
-    await this.showProducts(jid, categoriaPrincipal, subCategoria);
+    // Só mostrar produtos se encontrou sub-categoria válida
+    if (subCategoria) {
+      await this.showProducts(jid, categoriaPrincipal, subCategoria);
+    } else {
+      await this.showSubCategories(jid, categoriaPrincipal);
+    }
   }
 
   async showProducts(jid, categoriaPrincipal, subCategoria) {
