@@ -192,7 +192,7 @@ export default class ConversationFlow {
 
   async handleCategories(jid, text) {
     const normalizedText = text.toLowerCase().trim();
-    
+
     // Reconhecer números dos botões ou nomes
     if (
       normalizedText === '1' ||
@@ -269,7 +269,7 @@ export default class ConversationFlow {
     // Obter sub-categorias disponíveis
     const categories = this.productCatalog.getCategories();
     const subCategorias = categories[categoriaPrincipal] || [];
-    
+
     // Reconhecer por número (1 = primeira sub-categoria, 2 = segunda, etc.)
     if (normalizedText === '1' && subCategorias.length > 0) {
       subCategoria = subCategorias[0]; // Primeira sub-categoria

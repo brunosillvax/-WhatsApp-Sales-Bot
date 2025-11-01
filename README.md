@@ -63,8 +63,6 @@ Este projeto agora inclui **um sistema de testes automáticos que valida todas a
 - Dialogo completo: menu, categorias, produtos, carrinho, ofertas, suporte, admin
 - Respostas, botões, imagens e fluxo de conversação
 - Gerenciamento de estado e deduplicação de mensagens
-- Testes de estoque, cupons, carrinho vazio, produtos inválidos e navegação
-
 #### 📊 Como executar os testes automáticos (recomendado SEM WhatsApp!)
 
 ```bash
@@ -159,17 +157,23 @@ npm run dev         # Sobe em modo desenvolvimento (auto-reload)
 
 **Conversa do Cliente**
 
-![Conversa Cliente](https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=800&q=80)
+```
+
+```
 _Screenshot da conversa do cliente interagindo com o bot_
 
 **Painel Admin**
 
-![Painel Admin](https://images.unsplash.com/photo-1519389950473-47ba0277781c?fit=crop&w=800&q=80)
+```
+
+```
 _Screenshot do painel administrativo gerenciando produtos_
 
 **Dashboard de Estatísticas**
 
-![Dashboard](https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=800&q=80)
+```
+
+```
 _Screenshot do dashboard com estatísticas de vendas_
 
 </div>
@@ -179,20 +183,18 @@ _Screenshot do dashboard com estatísticas de vendas_
 <!-- Adicione diagrama de arquitetura/fluxo aqui -->
 <div align="center">
 
-![Arquitetura do Sistema](https://cdn.pixabay.com/photo/2019/04/10/22/17/software-development-architecture-4118589_1280.png)
-_Diagrama mostrando a arquitetura completa do bot_
+```
 
-</div>
+```
 
 ### 🔄 Fluxo Automatizado (n8n)
 
 <!-- Adicione gráfico do fluxo n8n aqui -->
 <div align="center">
 
-![Fluxo n8n](https://cdn.pixabay.com/photo/2014/04/02/10/55/flow-chart-306250_1280.png)
-_Gráfico profissional do fluxo automatizado no n8n_
+```
 
-</div>
+```
 
 ---
 
@@ -653,7 +655,7 @@ Cliente
 
 ### 💬 Conversa com Cliente
 
-```text
+``text
 Cliente: Olá
 Bot: 👋 Olá! Bem-vindo à Loja Tech!
      É a primeira vez que você nos visita?
@@ -702,7 +704,7 @@ Bot: 🛒 *Seu Carrinho:*
 
 ### 🎟️ Aplicando Cupom
 
-```text
+``text
 Cliente: cupom DESCONTO10
 Bot: ✅ Cupom DESCONTO10 aplicado com sucesso!
      💰 Subtotal: R$ 8999.90
@@ -713,7 +715,7 @@ Bot: ✅ Cupom DESCONTO10 aplicado com sucesso!
 
 ### 🔐 Modo Admin
 
-```text
+``text
 Admin: admin
 Bot: 🔐 *Painel Administrativo*
      ...
@@ -845,7 +847,7 @@ O bot utiliza **Baileys** para autenticação segura via QR Code:
 
 **Solução:**
 
-```bash
+```
 npm install qrcode-terminal
 ```
 
