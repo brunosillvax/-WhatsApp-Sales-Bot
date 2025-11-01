@@ -96,7 +96,8 @@ export default {
       loggingService.error('Erro ao verificar ofertas na mensagem de boas-vindas', error);
     }
 
-    message += `Como posso ajudar você hoje?`;
+    // Não incluir "Como posso ajudar" - os botões do menu já mostram as opções
+    // A mensagem será completada com os botões no showMainMenu
 
     // Marcar como recebido
     if (isFirst) {
