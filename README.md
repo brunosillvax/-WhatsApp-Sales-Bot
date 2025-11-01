@@ -148,55 +148,7 @@ npm run dev         # Sobe em modo desenvolvimento (auto-reload)
 
 </div>
 
-## 📸 Preview / Demonstração
 
-### 🎬 Interface do Bot
-
-<!-- Adicione screenshots do bot em funcionamento aqui -->
-<div align="center">
-
-**Conversa do Cliente**
-
-```
-
-```
-_Screenshot da conversa do cliente interagindo com o bot_
-
-**Painel Admin**
-
-```
-
-```
-_Screenshot do painel administrativo gerenciando produtos_
-
-**Dashboard de Estatísticas**
-
-```
-
-```
-_Screenshot do dashboard com estatísticas de vendas_
-
-</div>
-
-### 📊 Arquitetura do Sistema
-
-<!-- Adicione diagrama de arquitetura/fluxo aqui -->
-<div align="center">
-
-```
-
-```
-
-### 🔄 Fluxo Automatizado (n8n)
-
-<!-- Adicione gráfico do fluxo n8n aqui -->
-<div align="center">
-
-```
-
-```
-
----
 
 ## ✨ Funcionalidades Completas
 
