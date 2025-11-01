@@ -169,7 +169,7 @@ _Screenshot do painel administrativo gerenciando produtos_
 
 **Dashboard de Estatísticas**
 
-![Dashboard](docs/images/dashboard.png)
+![Dashboard](https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=800&q=80)
 _Screenshot do dashboard com estatísticas de vendas_
 
 </div>
@@ -179,7 +179,7 @@ _Screenshot do dashboard com estatísticas de vendas_
 <!-- Adicione diagrama de arquitetura/fluxo aqui -->
 <div align="center">
 
-![Arquitetura do Sistema](docs/images/arquitetura.png)
+![Arquitetura do Sistema](https://cdn.pixabay.com/photo/2019/04/10/22/17/software-development-architecture-4118589_1280.png)
 _Diagrama mostrando a arquitetura completa do bot_
 
 </div>
@@ -189,7 +189,7 @@ _Diagrama mostrando a arquitetura completa do bot_
 <!-- Adicione gráfico do fluxo n8n aqui -->
 <div align="center">
 
-![Fluxo n8n](docs/images/fluxo-n8n.png)
+![Fluxo n8n](https://cdn.pixabay.com/photo/2014/04/02/10/55/flow-chart-306250_1280.png)
 _Gráfico profissional do fluxo automatizado no n8n_
 
 </div>
