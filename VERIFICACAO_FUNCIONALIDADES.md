@@ -340,3 +340,5 @@ Este documento verifica quais funcionalidades estão implementadas e quais estã
 ---
 
 **Última atualização:** $(date)
+
+
