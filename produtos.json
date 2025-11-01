@@ -1,0 +1,90 @@
+[
+  {
+    "id_produto": "A01",
+    "nome": "Samsung Galaxy S25 Ultra",
+    "descricao": "O smartphone mais avançado com câmera de 200MP e IA integrada. Tela de 6.8 polegadas, 12GB RAM, 256GB de armazenamento.",
+    "preco": 8999.90,
+    "categoria_principal": "smartphones",
+    "sub_categoria": "android",
+    "imagem_url": "https://images.samsung.com/is/image/samsung/p6pim/br/feature/br/smartphones/galaxy-s25/galaxy-s25-feature.jpg",
+    "em_oferta": false,
+    "estoque": 15
+  },
+  {
+    "id_produto": "A02",
+    "nome": "Google Pixel 9 Pro",
+    "descricao": "A melhor câmera e IA pura do Google. Processador Tensor G4, câmera traseira tripla com zoom de 5x, bateria de longa duração.",
+    "preco": 7500.00,
+    "categoria_principal": "smartphones",
+    "sub_categoria": "android",
+    "imagem_url": "https://store.google.com/product/pixel_9_pro",
+    "em_oferta": false,
+    "estoque": 8
+  },
+  {
+    "id_produto": "I01",
+    "nome": "iPhone 16 Pro Max",
+    "descricao": "O mais poderoso iPhone de todos os tempos. Chip A18 Pro, câmera de 48MP, tela Super Retina XDR de 6.9 polegadas.",
+    "preco": 12999.90,
+    "categoria_principal": "smartphones",
+    "sub_categoria": "iphone",
+    "imagem_url": "https://www.apple.com/br/iphone-16-pro/",
+    "em_oferta": false,
+    "estoque": 12
+  },
+  {
+    "id_produto": "I02",
+    "nome": "iPhone 15",
+    "descricao": "iPhone com Dynamic Island, câmera de 48MP e chip A16 Bionic. Design premium em alumínio.",
+    "preco": 6999.90,
+    "categoria_principal": "smartphones",
+    "sub_categoria": "iphone",
+    "imagem_url": "https://www.apple.com/br/iphone-15/",
+    "em_oferta": true,
+    "estoque": 20
+  },
+  {
+    "id_produto": "C01",
+    "nome": "Cabo USB-C Premium 2m",
+    "descricao": "Cabo USB-C de alta qualidade, 2 metros, carregamento rápido e transferência de dados rápida.",
+    "preco": 49.90,
+    "categoria_principal": "acessorios",
+    "sub_categoria": "cabos",
+    "imagem_url": "",
+    "em_oferta": false,
+    "estoque": 50
+  },
+  {
+    "id_produto": "C02",
+    "nome": "Carregador Wireless Samsung",
+    "descricao": "Carregador wireless compatível com Samsung, iPhone e outros dispositivos. Carregamento rápido até 15W.",
+    "preco": 199.90,
+    "categoria_principal": "acessorios",
+    "sub_categoria": "carregadores",
+    "imagem_url": "",
+    "em_oferta": false,
+    "estoque": 30
+  },
+  {
+    "id_produto": "F01",
+    "nome": "AirPods Pro 2",
+    "descricao": "Fones de ouvido com cancelamento ativo de ruído, som espacial e resistência à água.",
+    "preco": 2299.90,
+    "categoria_principal": "acessorios",
+    "sub_categoria": "fones",
+    "imagem_url": "",
+    "em_oferta": false,
+    "estoque": 25
+  },
+  {
+    "id_produto": "F02",
+    "nome": "Galaxy Buds2 Pro",
+    "descricao": "Fones verdadeiramente sem fio da Samsung com cancelamento de ruído inteligente e som 360.",
+    "preco": 899.90,
+    "categoria_principal": "acessorios",
+    "sub_categoria": "fones",
+    "imagem_url": "",
+    "em_oferta": true,
+    "estoque": 18
+  }
+]

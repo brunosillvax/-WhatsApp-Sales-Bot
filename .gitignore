@@ -1,0 +1,31 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Arquivos de autenticação do WhatsApp
+auth_info_baileys/
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build
+dist/
+build/
