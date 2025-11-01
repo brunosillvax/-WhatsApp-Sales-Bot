@@ -159,12 +159,12 @@ npm run dev         # Sobe em modo desenvolvimento (auto-reload)
 
 **Conversa do Cliente**
 
-![Conversa Cliente](docs/images/conversa-cliente.png)
+![Conversa Cliente](https://images.unsplash.com/photo-1519125323398-675f0ddb6308?fit=crop&w=800&q=80)
 _Screenshot da conversa do cliente interagindo com o bot_
 
 **Painel Admin**
 
-![Painel Admin](docs/images/painel-admin.png)
+![Painel Admin](https://images.unsplash.com/photo-1519389950473-47ba0277781c?fit=crop&w=800&q=80)
 _Screenshot do painel administrativo gerenciando produtos_
 
 **Dashboard de Estatísticas**
